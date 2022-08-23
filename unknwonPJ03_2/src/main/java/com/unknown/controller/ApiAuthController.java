@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unknown.config.CustomException;
 import com.unknown.model.dto.ReqLoginDTO;
+import com.unknown.model.dto.ResLoginDTO;
+import com.unknown.model.vo.ResponseVO;
 import com.unknown.model.vo.SessionVO;
 import com.unknown.service.UserService;
 
@@ -31,14 +34,25 @@ public class ApiAuthController {
 			log.debug("ApiAuthController.signin : params = {}", params);
 		}
 
+		ResponseVO responseVO = new ResponseVO();
+		SessionVO sessionVO	  = null;
 		try {
-
-			SessionVO sessionVO	= userService.checkLogin(params.getLoginId(), params.getLoginPw(), request);
-
-		} catch (Exception e) {
-			e.printStackTrace();
+			sessionVO = userService.checkLogin(params.getLoginId(), params.getLoginPw(), request);
+		} catch (CustomException e) {
+			responseVO.setFail(e.getCode(), e.getMessage(), null);
+			return ResponseEntity.ok(responseVO);
 		}
 
-		return ResponseEntity.ok(null);
+		//회원 정보가 존재 시
+		if(sessionVO != null) {
+			String token = userService.convertLoginToken(sessionVO);
+			ResLoginDTO resLoginDTO = ResLoginDTO.builder()
+				.loginId(sessionVO.getLoginId())
+				.loginNm(sessionVO.getLoginNm())
+				.token(token)
+				.build();
+			responseVO.setOk(resLoginDTO);
+		}
+		return ResponseEntity.ok(responseVO);
 	}
 }

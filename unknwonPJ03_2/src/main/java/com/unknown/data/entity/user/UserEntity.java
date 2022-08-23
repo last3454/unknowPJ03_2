@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name= "user_mst")
+@Table(name= "USER_MST")
 @Builder
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -25,7 +25,9 @@ public class UserEntity extends CommEntity {
 	@Id
 	private long seq;
 
-	private String id;
+	private String loginId;
+
+	private String name;
 
 	private String pass;
 
