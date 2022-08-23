@@ -1,0 +1,30 @@
+server:
+  port: 9000
+  servlet:
+    context-path: /
+
+spring:
+  jwt:
+    headerKey: authorization
+    secret: yhchoi!@#
+    before_len: 8
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.MariaDB106Dialect
+    properties:
+      hibernate:
+        ddl-auto: none
+        physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        jdbc.time_zone: Asia/Seoul
+  datasource:
+    base:
+     #type: com.zaxxer.hikari.HikariDataSource
+     driver-class-name: org.mariadb.jdbc.Driver
+     #driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+     url: jdbc:mariadb://unknown.cmoozwqocg37.ap-northeast-2.rds.amazonaws.com:3306
+     jdbc-url: jdbc:mariadb://unknown.cmoozwqocg37.ap-northeast-2.rds.amazonaws.com:3306
+     username: sysadmins
+     password: yhchoi8031
+     hikari:
+      maximum-pool-size: 5
